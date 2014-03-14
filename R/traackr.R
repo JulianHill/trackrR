@@ -8,7 +8,7 @@ library(rjson)
 
 #Get Influencer
 #Get Twitter User uid
-
+#Test
 url <- paste("http://api.traackr.com/1.0/influencers/lookup/twitter/",username,"?api_key=",api_key,sep = "")
 answer <- fromJSON(file=url, method='C')
 
