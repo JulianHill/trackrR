@@ -25,6 +25,8 @@ print(message)
 #Get Influencer Connections:
 
 #UIDs
+message <- paste("Getting strongest connections:")
+print(message)
 
 url <- paste("http://api.traackr.com/1.0/influencers/connections/",uid,"?api_key=",api_key,sep = "")
 
@@ -79,7 +81,7 @@ print(message)
 
 }
 
-print(df)
+#print(df)
 
 
 
