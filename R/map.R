@@ -134,15 +134,13 @@ df$lat <- geocodes[2]
 
 
 map.center <- geocode("germany")
-SHmap <- qmap(c(lon=map.center$lon, lat=map.center$lat), source="google", zoom=6)
-
-SHmap + geom_point(
+qmap(c(lon=map.center$lon, lat=map.center$lat), source="google", zoom=6) + geom_point(
    aes(x=lon, y=lat, color="Influencer"), data=geocodes) +
    scale_colour_manual(values=c("dark blue","orange"))
 
 
 
-return(df)
+
 
 
 }
