@@ -1,7 +1,7 @@
-GetInfluencerConnections <- function(username,api_key){
+MapInfluencers <- function(username,api_key){
 
 library(rjson)
-
+library(ggmap)
  
 
 #username <- "Jack"
@@ -126,7 +126,25 @@ print(message)
 
 
 
+locations <- df[5]
+geocodes <- geocode(locations[[1]])
+df$lon <- geocodes[1]
+df$lat <- geocodes[2]
+
+
+
+map.center <- geocode("germany")
+SHmap <- qmap(c(lon=map.center$lon, lat=map.center$lat), source="google", zoom=6)
+
+SHmap + geom_point(
+   aes(x=lon, y=lat, color="Influencer"), data=geocodes) +
+   scale_colour_manual(values=c("dark blue","orange"))
+
+
+
 return(df)
 
 
 }
+
+
