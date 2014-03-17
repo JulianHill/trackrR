@@ -2,6 +2,7 @@ GetInfluencerConnections <- function(username,api_key){
 
 library(rjson)
 
+ 
 
 #username <- "Jack"
 
