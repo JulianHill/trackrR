@@ -132,11 +132,15 @@ df$lon <- geocodes[1]
 df$lat <- geocodes[2]
 
 
+mean_lon <- mean(geocodes$lon) # outcome: 7.576119
+mean_lat <- mean(geocodes$lat) # outcome: 50.90956
 
-map.center <- geocode("germany")
-qmap(c(lon=map.center$lon, lat=map.center$lat), source="google", zoom=6) 
+
+mapImageData <- get_googlemap(center = c(lon=mean_lon, lat=mean_lat), zoom=5)
 
 
+ggmap(mapImageData) +
+  geom_point(data=geocodes, aes(x=lon, y=lat), colour="red", size=6, alpha=.6)
 
 
 
