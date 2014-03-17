@@ -8,7 +8,7 @@ library(rjson)
 
 #Get Influencer
 #Get Twitter User uid
-#Test
+
 url <- paste("http://api.traackr.com/1.0/influencers/lookup/twitter/",username,"?api_key=",api_key,sep = "")
 answer <- fromJSON(file=url, method='C')
 
@@ -25,8 +25,6 @@ print(message)
 #Get Influencer Connections:
 
 #UIDs
-message <- paste("Getting strongest connections:")
-print(message)
 
 url <- paste("http://api.traackr.com/1.0/influencers/connections/",uid,"?api_key=",api_key,sep = "")
 
@@ -40,20 +38,36 @@ length <- length(connections[[1]]$connections_from)
 df = data.frame(no = 1:length)
 
 for (i in 1:nrow(df)){
+
+uid = connections[[1]]$connections_from[[i]]$native_id
+
+type = connections[[1]]$connections_from[[i]]$type
+#if influencer is just Twitter User, not Traackr User
+if(identical("TRAACKR",type)==FALSE)	{
+
+
+	df$uid[i] = "INFLUENCER NOT IN SYSTEM"
+}
+else{
+
+
  
-df$uid[i] = connections[[1]]$connections_from[[i]]$native_id
+df$uid[i] = uid
  
+ }
 
  
 }
 
+#####################################
 
-#Names
-
-for (i in 1:nrow(df)){
+for (i in 1:(nrow(df))){
 
 
 user_uid = df$uid[i]	
+
+if(identical("INFLUENCER NOT IN SYSTEM",user_uid)==FALSE){
+
 
 url <- paste("http://api.traackr.com/1.0/influencers/show/",user_uid,"?with_channels=false&api_key=",api_key,sep = "")
 name_all <- fromJSON(file=url, method='C')
@@ -74,6 +88,15 @@ if(nchar(title)<1)
 
 
 df$title[i] = title
+}
+
+else{
+	df$name[i] = "/"
+	df$title[i] = "/"
+
+}
+
+
 
 message <- paste(i,"of",length)
 print(message)
@@ -81,7 +104,7 @@ print(message)
 
 }
 
-#print(df)
+print(df)
 
 
 
