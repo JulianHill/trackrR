@@ -142,7 +142,7 @@ tab2$params$table$aoColumns =
     list(sType = "string_ignore_null", sTitle = "Title"),
     list(sType = "string_ignore_null", sTitle = "Location")
   )
-tab2
+return(tab2)
 
 
 
