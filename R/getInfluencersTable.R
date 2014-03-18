@@ -1,4 +1,4 @@
-GetInfluencerConnections <- function(username,api_key){
+GetInfluencerConnectionsTable <- function(username,api_key){
 
 library(rjson)
 
