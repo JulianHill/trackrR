@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://jsfiddle.net/JulianHi/tmqab/6/show/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Traackr API Test. - by JulianHi</title>
+  
+  <script type="text/javascript" src="./traackr_files/dummy.js"></script>
+  
+  
+  
+  <link rel="stylesheet" type="text/css" href="./traackr_files/result-light.css">
+  
+    
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    
+  
+    
+      <script type="text/javascript" src="http://public.opencpu.org/js/archive/opencpu-0.4.js"></script><style type="text/css"></style>
+    
+  
+  <style type="text/css">
+    pre {
+    border: solid gray 1px;
+    padding: 5px;
+    margin: 10px;
+}
+  </style>
+  
+
+
+<script type="text/javascript">//<![CDATA[ 
+window.onload=function(){
+//set CORS to call "appdemo" package on public server
+ocpu.seturl("http://public.opencpu.org/ocpu/github/JulianHill/trackrR/R")
+
+//global var
+var mysession;
+
+//calls R function: stats::rnorm(n=100, mean=runif(1)):
+$("#postbutton").click(function(){
+    
+  
+    var key = $("#key").val();
+        var name = $("#name").val();
+    
+    
+    var req = ocpu.call("GetInfluencerConnections", {username: name, api_key:key}, function(session){
+        //assign to global var
+        mysession = session;
+        
+        //read the session properties (just for fun)
+        $("#key").text(mysession.getKey());
+        $("#location").text(mysession.getLoc());
+        
+        //retrieve session console (async)
+        mysession.getConsole(function(outtxt){
+            $("#output").text(outtxt);
+        });
+        
+        //enable the other button
+        $("#getbutton").removeAttr("disabled");
+    }).fail(function(){
+        alert("Error: " + req.responseText);
+    });
+});
+
+$("#submitbutton").click(function(){
+
+ocpu.seturl("http://public.opencpu.org/ocpu/github/JulianHill/trackrR/R")
+    var key = $("#key").val();  
+    var name = $("#name").val();
+      
+    var req = $("#plotdiv").rplot("MapInfluencers", {
+        username : name,
+        api_key : key
+    });
+    
+    //optional
+    req.fail(function(){
+        alert("R returned an error: " + req.responseText); 
+    });
+});
+
+$("#getbutton").click(function(){
+    //retrieve object (async)
+    mysession.getObject(function(data){
+        //data is the object returned by the R function
+        alert("Array of length " + data.length + ".\nFirst few values:" + data.slice(0,3)); 
+    });
+});        
+
+}//]]>  
+
+</script>
+
+
+</head>
+<body style="">
+  <button id="postbutton" type="button">Get Influencers!</button> <br><br>
+  <button id="submitbutton" type="button">Show Map!</button><br><br>
+  
+<input type="text" id="key" value="API KEY"><br>
+    <input type="text" id="name" value="USERNAME"><br>
+     Session ID: <tt id="key"></tt> <br>
+Session Location: <tt id="location"></tt>    
+      
+      <div id="plotdiv"></div>      
+        
+
+
+<pre><code id="output"></code></pre> 
+
+
+
+
+  
+
+
+
+
+
+</body></html>
