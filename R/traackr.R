@@ -62,27 +62,46 @@ df$uid[i] = uid
 
 #####################################
 
-for (i in 1:(nrow(df))){
+#create influencer list:
 
 
-user_uid = df$uid[i]	
+influencer_list <- df$uid
+#length <- length(influencer_list)
+influencer_string <- paste(as.list(influencer_list),collapse=",")
+
+url <- paste("http://api.traackr.com/1.0/influencers/show/",influencer_string,"?with_channels=false&api_key=",api_key,sep = "")
+name_all <- fromJSON(file=url, method='C')	
+
+
+length <- length(name_all[[1]])
+
+
+
+
+
+
+influencers <- name_all[[1]]
+
+for (i in 1:length){
+
+
+curr_influencer <- influencers[[i]]
+
+
+user_uid = curr_influencer$uid	
 
 if(identical("INFLUENCER NOT IN SYSTEM",user_uid)==FALSE){
 
 
-url <- paste("http://api.traackr.com/1.0/influencers/show/",user_uid,"?with_channels=false&api_key=",api_key,sep = "")
-name_all <- fromJSON(file=url, method='C')
 
-
-name <- name_all$influencer
-name <- name[[1]]$name
+name <- curr_influencer$name
 
 
 df$name[i] = name
 
 # TITLE ###########################
-title <- name_all$influencer
-title <- title[[1]]$title
+title <- curr_influencer$title
+
 
 if(nchar(title)<1)
 {title <- "NA"}
@@ -92,19 +111,14 @@ df$title[i] = title
 
 
 #Location##########################
-location <- name_all$influencer
-location <- location[[1]]$location
+
+location <- curr_influencer$location
 
 if(nchar(location)<1)
 {location <- "NA"}
 
 
 df$location[i] = location
-
-
-
-
-
 
 }
 
@@ -114,17 +128,7 @@ else{
 
 }
 
-
-
-message <- paste(i,"of",length)
-print(message)
-
-
 }
-
-#print(df)
-
-
 
 return(df)
 
