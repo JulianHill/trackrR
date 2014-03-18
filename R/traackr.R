@@ -7,7 +7,7 @@ library(rjson)
 #username <- "Jack"
 
 
-#Step 1
+
 #Get Influencer
 #Get Twitter User uid
 
@@ -62,6 +62,8 @@ df$uid[i] = uid
 }
 
 #####################################
+#
+#Get influencer info
 
 #create influencer list:
 
@@ -76,31 +78,28 @@ name_all <- fromJSON(file=url, method='C')
 
 length <- length(name_all[[1]])
 
-
-
-
-
-
+# the influencers
 influencers <- name_all[[1]]
+######################
 
 for (i in 1:length){
 
-
+#the current influencer
 curr_influencer <- influencers[[i]]
 
-
+#influencer UID
 user_uid = curr_influencer$uid	
 
 if(identical("INFLUENCER NOT IN SYSTEM",user_uid)==FALSE){
 
 
-
+#influencer name
 name <- curr_influencer$name
 
 
 df$name[i] = name
 
-# TITLE ###########################
+# influencer title
 title <- curr_influencer$title
 
 
@@ -111,7 +110,7 @@ if(nchar(title)<1)
 df$title[i] = title
 
 
-#Location##########################
+#Linfluencer location
 
 location <- curr_influencer$location
 
@@ -122,7 +121,7 @@ if(nchar(location)<1)
 df$location[i] = location
 
 }
-
+# if the User is not a Twitter user, but a "Traackr" user
 else{
 	df$name[i] = "/"
 	df$title[i] = "/"
