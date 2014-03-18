@@ -130,7 +130,8 @@ else{
 
 }
 library(gridExtra)
-grid.table(df)
+print(grid.table(df))
+dev.off()
 
 
 }
