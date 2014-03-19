@@ -142,7 +142,8 @@ tab2$params$table$aoColumns =
     list(sType = "string_ignore_null", sTitle = "Title"),
     list(sType = "string_ignore_null", sTitle = "Location")
   )
-return(tab2)
+
+tab2$save("output.html", cdn = TRUE)
 
 
 
